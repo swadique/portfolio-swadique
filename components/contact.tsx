@@ -10,27 +10,6 @@ import toast from "react-hot-toast";
 
 export default function Contact() {
   const { ref } = useSectionInView("Contact");
-  const handleSubmit = (event: { preventDefault: () => void; target: any }) => {
-    event.preventDefault();
-
-    const myForm = event.target;
-    const formData = new FormData(myForm);
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
-    })
-      .then(() => {
-        (document as any).getElementById("SubmitForm").reset();
-        toast.success("Thank you");
-      })
-      .catch(() => {
-        toast.error(
-          "Failed to send your message! Please reach out me via email"
-        );
-      });
-  };
 
   return (
     <motion.section
@@ -57,16 +36,19 @@ export default function Contact() {
         <a className="underline" href="mailto:example@gmail.com">
           swadiquesadi@gmail.com
         </a>{" "}
-        {/* or through this form. */}
+        or through this form.
       </p>
 
       <form
         id="SubmitForm"
-        onSubmit={handleSubmit}
         className="mt-10 flex flex-col dark:text-black"
-        // action={async (form) => {
-        //   toast.success("Email sent successfully!");
-        // }}
+        action={async () => {
+          (document as any).getElementById("SubmitForm").reset();
+          toast.success("Thank you");
+        }}
+        method="POST"
+        data-netlify="true"
+        name="contact"
       >
         <input
           className="h-14 px-4 rounded-lg borderBlack dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none"
